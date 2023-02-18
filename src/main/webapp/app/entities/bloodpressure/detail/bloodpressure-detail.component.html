@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="bloodpressure">
+      <h2 data-cy="bloodpressureDetailsHeading">
+        <span jhiTranslate="twentyonepointsv3App.bloodpressure.detail.title">Bloodpressure</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ bloodpressure.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="twentyonepointsv3App.bloodpressure.timestamp">Timestamp</span></dt>
+        <dd>
+          <span>{{ bloodpressure.timestamp | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="twentyonepointsv3App.bloodpressure.systolic">Systolic</span></dt>
+        <dd>
+          <span>{{ bloodpressure.systolic }}</span>
+        </dd>
+        <dt><span jhiTranslate="twentyonepointsv3App.bloodpressure.diastolic">Diastolic</span></dt>
+        <dd>
+          <span>{{ bloodpressure.diastolic }}</span>
+        </dd>
+        <dt><span jhiTranslate="twentyonepointsv3App.bloodpressure.user">User</span></dt>
+        <dd>
+          <span>{{ bloodpressure.user?.login }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+      </button>
+
+      <button type="button" [routerLink]="['/bloodpressure', bloodpressure.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+      </button>
+    </div>
+  </div>
+</div>

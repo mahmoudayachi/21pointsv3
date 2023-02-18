@@ -1,0 +1,28 @@
+{
+  "twentyonepointsv3App": {
+    "bloodpressure": {
+      "home": {
+        "title": "Bloodpressures",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Bloodpressure",
+        "createOrEditLabel": "Créer ou éditer un Bloodpressure",
+        "search": "Recherche pour Bloodpressure",
+        "notFound": "Aucun Bloodpressure trouvé"
+      },
+      "created": "Un nouveau Bloodpressure a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Bloodpressure avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Bloodpressure avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Bloodpressure {{ id }} ?"
+      },
+      "detail": {
+        "title": "Bloodpressure"
+      },
+      "id": "ID",
+      "timestamp": "Timestamp",
+      "systolic": "Systolic",
+      "diastolic": "Diastolic",
+      "user": "User"
+    }
+  }
+}

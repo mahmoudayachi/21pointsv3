@@ -49,6 +49,9 @@ public class CacheConfiguration {
             createCache(cm, org.jhipster.health.domain.Authority.class.getName());
             createCache(cm, org.jhipster.health.domain.User.class.getName() + ".authorities");
             createCache(cm, org.jhipster.health.domain.Points.class.getName());
+            createCache(cm, org.jhipster.health.domain.Weight.class.getName());
+            createCache(cm, org.jhipster.health.domain.Bloodpressure.class.getName());
+            createCache(cm, org.jhipster.health.domain.Prefrences.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
