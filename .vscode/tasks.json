@@ -1,0 +1,26 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "gradle",
+			"id": "c:\\Pfe\\p21pointsV3buildtwentyonepointsv-3",
+			"script": "build",
+			"description": "Assembles and tests this project.",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"project": "twentyonepointsv-3",
+			"buildFile": "C:\\Pfe\\p21pointsV3\\build.gradle",
+			"rootProject": "twentyonepointsv-3",
+			"projectFolder": "c:\\Pfe\\p21pointsV3",
+			"workspaceFolder": "c:\\Pfe\\p21pointsV3",
+			"args": "",
+			"javaDebug": false,
+			"problemMatcher": [
+				"$gradle"
+			],
+			"label": "gradle: build"
+		}
+	]
+}

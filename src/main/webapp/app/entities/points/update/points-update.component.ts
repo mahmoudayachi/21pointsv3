@@ -48,6 +48,9 @@ export class PointsUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
+    this.points!.exercise = this.points!.exercise ? 1 : 0;
+    this.points!.meals = this.points!.meals ? 1 : 0;
+    this.points!.alcohol = this.points!.alcohol ? 1 : 0;
     const points = this.pointsFormService.getPoints(this.editForm);
     if (points.id !== null) {
       this.subscribeToSaveResponse(this.pointsService.update(points));

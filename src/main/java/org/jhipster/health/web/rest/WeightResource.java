@@ -12,8 +12,11 @@ import java.util.stream.StreamSupport;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.jhipster.health.domain.Weight;
+import org.jhipster.health.repository.UserRepository;
 import org.jhipster.health.repository.WeightRepository;
 import org.jhipster.health.repository.search.WeightSearchRepository;
+import org.jhipster.health.security.AuthoritiesConstants;
+import org.jhipster.health.security.SecurityUtils;
 import org.jhipster.health.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,12 +49,13 @@ public class WeightResource {
     private String applicationName;
 
     private final WeightRepository weightRepository;
-
+    private final UserRepository userRepository;
     private final WeightSearchRepository weightSearchRepository;
 
-    public WeightResource(WeightRepository weightRepository, WeightSearchRepository weightSearchRepository) {
+    public WeightResource(WeightRepository weightRepository, WeightSearchRepository weightSearchRepository, UserRepository userRepository) {
         this.weightRepository = weightRepository;
         this.weightSearchRepository = weightSearchRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -67,6 +71,11 @@ public class WeightResource {
         if (weight.getId() != null) {
             throw new BadRequestAlertException("A new weight cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
+            weight.setUser(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin().toString()).get());
+        }
+
         Weight result = weightRepository.save(weight);
         weightSearchRepository.index(result);
         return ResponseEntity

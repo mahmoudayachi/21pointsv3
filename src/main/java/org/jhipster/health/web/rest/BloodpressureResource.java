@@ -13,7 +13,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.jhipster.health.domain.Bloodpressure;
 import org.jhipster.health.repository.BloodpressureRepository;
+import org.jhipster.health.repository.UserRepository;
 import org.jhipster.health.repository.search.BloodpressureSearchRepository;
+import org.jhipster.health.security.AuthoritiesConstants;
+import org.jhipster.health.security.SecurityUtils;
 import org.jhipster.health.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,15 +49,17 @@ public class BloodpressureResource {
     private String applicationName;
 
     private final BloodpressureRepository bloodpressureRepository;
-
+    private final UserRepository userRepository;
     private final BloodpressureSearchRepository bloodpressureSearchRepository;
 
     public BloodpressureResource(
         BloodpressureRepository bloodpressureRepository,
-        BloodpressureSearchRepository bloodpressureSearchRepository
+        BloodpressureSearchRepository bloodpressureSearchRepository,
+        UserRepository userRepository
     ) {
         this.bloodpressureRepository = bloodpressureRepository;
         this.bloodpressureSearchRepository = bloodpressureSearchRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -69,6 +74,10 @@ public class BloodpressureResource {
         log.debug("REST request to save Bloodpressure : {}", bloodpressure);
         if (bloodpressure.getId() != null) {
             throw new BadRequestAlertException("A new bloodpressure cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
+            bloodpressure.setUser(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin().toString()).get());
         }
         Bloodpressure result = bloodpressureRepository.save(bloodpressure);
         bloodpressureSearchRepository.index(result);

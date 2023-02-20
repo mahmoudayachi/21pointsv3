@@ -35,19 +35,23 @@
           </div>
         </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="twentyonepointsv3App.points.exercise" for="field_exercise">Exercise</label>
-          <input type="number" class="form-control" name="exercise" id="field_exercise" data-cy="exercise" formControlName="exercise" />
+        <div class="form-check">
+          <label class="form-check-label" for="field_exercise">
+            <input type="checkbox" class="form-check-input" name="exercise" id="field_exercise" [(ngModel)]="points!.exercise" />
+            <span jhiTranslate="twentyOnePointsv3App.points.exercise" for="field_exercise">Exercise</span>
+          </label>
         </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="twentyonepointsv3App.points.meals" for="field_meals">Meals</label>
-          <input type="number" class="form-control" name="meals" id="field_meals" data-cy="meals" formControlName="meals" />
+        <div class="form-check">
+          <label class="form-check-label" for="field_meals">
+            <input type="checkbox" class="form-check-input" name="meals" id="field_meals" [(ngModel)]="points!.meals" />
+            <span jhiTranslate="twentyOnePointsv3App.points.meals">Meals</span>
+          </label>
         </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="twentyonepointsv3App.points.alcohol" for="field_alcohol">Alcohol</label>
-          <input type="number" class="form-control" name="alcohol" id="field_alcohol" data-cy="alcohol" formControlName="alcohol" />
+        <div class="form-check">
+          <label class="form-check-label" for="field_alcohol">
+            <input type="checkbox" class="form-check-input" name="alcohol" id="field_alcohol" [(ngModel)]="points!.alcohol" />
+            <span jhiTranslate="twentyOnePointsv3App.points.alcohol" for="field_alcohol">Alcohol</span>
+          </label>
         </div>
 
         <div class="row mb-3">
@@ -65,11 +69,16 @@
           </div>
         </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="twentyonepointsv3App.points.user" for="field_user">User</label>
-          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+        <div class="form-group" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+          <label class="form-control-label" jhiTranslate="twentyOnePointsv3App.points.user" for="field_user">User</label>
+          <select class="form-control" id="field_user" name="user" [(ngModel)]="points!.user">
             <option [ngValue]="null"></option>
-            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.login }}</option>
+            <option
+              [ngValue]="userOption.id === points!.user?.id ? points!.user : userOption"
+              *ngFor="let userOption of usersSharedCollection"
+            >
+              {{ userOption.login }}
+            </option>
           </select>
         </div>
       </div>

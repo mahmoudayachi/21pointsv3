@@ -3,19 +3,41 @@
     <span jhiTranslate="twentyonepointsv3App.points.home.title">Points</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span jhiTranslate="twentyonepointsv3App.points.home.refreshListLabel">Actualiser la liste</span>
-      </button>
+      <form name="searchForm" class="row row-cols-sm-auto align-items-center">
+        <div class="col-sm-12">
+          <div class="input-group w-100 mt-3">
+            <label class="visually-hidden" for="currentSearch" jhiTranslate="twentyonepointsv3App.points.home.search"
+              >Recherche pour Points</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="currentSearch"
+              id="currentSearch"
+              name="currentSearch"
+              placeholder="{{ 'twentyonepointsv3App.points.home.search' | translate }}"
+            />
+
+            <button class="btn btn-info" (click)="search(currentSearch)">
+              <fa-icon icon="search"></fa-icon>
+            </button>
+
+            <button class="btn btn-danger" (click)="search('')" *ngIf="currentSearch">
+              <fa-icon icon="trash-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </form>
 
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-points"
         [routerLink]="['/points/new']"
+        style="height: 39px; width: 39px; color: white; margin-top: 15px; margin-left: 10px"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span class="hidden-sm-down" jhiTranslate="twentyonepointsv3App.points.home.createLabel"> Créer un nouveau Points </span>
+        <span class="hidden-sm-down" jhiTranslate="twentyonepointsv3App.points.home.createLabel"></span>
       </button>
     </div>
   </h2>
@@ -23,32 +45,6 @@
   <jhi-alert-error></jhi-alert-error>
 
   <jhi-alert></jhi-alert>
-
-  <form name="searchForm" class="row row-cols-sm-auto align-items-center">
-    <div class="col-sm-12">
-      <div class="input-group w-100 mt-3">
-        <label class="visually-hidden" for="currentSearch" jhiTranslate="twentyonepointsv3App.points.home.search"
-          >Recherche pour Points</label
-        >
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="currentSearch"
-          id="currentSearch"
-          name="currentSearch"
-          placeholder="{{ 'twentyonepointsv3App.points.home.search' | translate }}"
-        />
-
-        <button class="btn btn-info" (click)="search(currentSearch)">
-          <fa-icon icon="search"></fa-icon>
-        </button>
-
-        <button class="btn btn-danger" (click)="search('')" *ngIf="currentSearch">
-          <fa-icon icon="trash-alt"></fa-icon>
-        </button>
-      </div>
-    </div>
-  </form>
 
   <div class="alert alert-warning" id="no-result" *ngIf="points?.length === 0">
     <span jhiTranslate="twentyonepointsv3App.points.home.notFound">Aucun Points trouvé</span>
@@ -109,9 +105,27 @@
             <a [routerLink]="['/points', points.id, 'view']">{{ points.id }}</a>
           </td>
           <td>{{ points.date | formatMediumDate }}</td>
-          <td>{{ points.exercise }}</td>
-          <td>{{ points.meals }}</td>
-          <td>{{ points.alcohol }}</td>
+          <td class="text-center">
+            <fa-icon
+              [icon]="points.exercise ? 'check' : 'times'"
+              aria-hidden="true"
+              class="{{ points.exercise ? 'text-success' : 'text-danger' }}"
+            ></fa-icon>
+          </td>
+          <td class="text-center">
+            <fa-icon
+              [icon]="points.meals ? 'check' : 'times'"
+              aria-hidden="true"
+              class="{{ points.meals ? 'text-success' : 'text-danger' }}"
+            ></fa-icon>
+          </td>
+          <td class="text-center">
+            <fa-icon
+              [icon]="points.alcohol ? 'check' : 'times'"
+              aria-hidden="true"
+              class="{{ points.alcohol ? 'text-success' : 'text-danger' }}"
+            ></fa-icon>
+          </td>
           <td>{{ points.notes }}</td>
           <td>
             {{ points.user?.login }}

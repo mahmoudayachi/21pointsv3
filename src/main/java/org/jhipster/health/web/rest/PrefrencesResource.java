@@ -14,7 +14,10 @@ import javax.validation.constraints.NotNull;
 import org.jhipster.health.domain.Prefrences;
 import org.jhipster.health.repository.PrefrencesRepository;
 import org.jhipster.health.repository.UserRepository;
+import org.jhipster.health.repository.UserRepository;
 import org.jhipster.health.repository.search.PrefrencesSearchRepository;
+import org.jhipster.health.security.AuthoritiesConstants;
+import org.jhipster.health.security.SecurityUtils;
 import org.jhipster.health.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,6 +80,10 @@ public class PrefrencesResource {
         }
         if (Objects.isNull(prefrences.getUser())) {
             throw new BadRequestAlertException("Invalid association value provided", ENTITY_NAME, "null");
+        }
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
+            prefrences.setUser(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin().toString()).get());
         }
         Long userId = prefrences.getUser().getId();
         userRepository.findById(userId).ifPresent(prefrences::user);
